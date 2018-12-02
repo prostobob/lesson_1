@@ -1,0 +1,35 @@
+.post {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+.avatar {
+    margin-right: 10px;
+    text-align: center;
+}
+.avatar img {
+    width: 110px;
+}
+.title {
+    margin-bottom: 10px;
+}
+.title a{
+    font-size: 26px;
+    color: cornflowerblue;
+}
+.text {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.likes {
+    display: flex;
+}
+.likes__btn {
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.likes span {
+    line-height: 25px;
+}

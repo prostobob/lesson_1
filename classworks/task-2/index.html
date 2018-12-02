@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>task-2</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div id="renderArea"></div>
+
+
+    <script>
+        const activeImg = 'https://img.icons8.com/color/20/000000/filled-like.png';
+        const defaultImg = 'https://img.icons8.com/material-outlined/20/000000/filled-like.png';
+
+            const data = [
+      {
+        id: 1,
+        link: "#1",
+        name: "Established fact123123",
+        description: "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. ",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400926_file_162303.jpg"
+      },
+      {
+        id: 2,
+        link: "#2",
+        name: "Established fact",
+        description: "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. ",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400926_file_162303.jpg"
+      },
+      {
+        id: 6,
+        link: "#6",
+        name: "Many packages",
+        description: "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400859_file_162309.jpg"
+      },
+      {
+        id: 3,
+        link: "#3",
+        name: "Suffered alteration",
+        description: "Looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature.",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400896_file_162315.jpg"
+      },{
+        id: 4,
+        link: "#4",
+        name: "Discovered source",
+        description: "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400878_file_162324.jpg"
+      },{
+        id: 5,
+        link: "#5",
+        name: "Handful model",
+        description: "The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+        image: "http://telegram.org.ru/uploads/posts/2017-10/1507400876_file_162328.jpg"
+      },
+    ];
+
+      class Post {
+        constructor(id, link, name, description, image) {
+          this.id = id;
+          this.link = link;
+          this.name = name;
+          this.description = description;
+          this.image = image;
+          this.likes = 0;
+          this.id = Math.round(Math.random() * 1000);
+          this.isLiked = false;
+
+          this.addLike = this.addLike.bind(this);
+          this.render = this.render.bind(this);
+        }
+        addLike() {
+            this.isLiked = !this.isLiked;
+            let post = document.querySelector(`.post[data-id="${this.id}"] > div > .likes > span`);
+            let img = document.querySelector(`.post[data-id="${this.id}"] > div > .likes > .likes__btn > img`);
+            if (this.isLiked) {
+                this.likes++;
+            post.innerHTML = `${this.likes}`;
+            img.setAttribute('src', `${activeImg}`);
+            } else {
+                this.likes = 0;
+                post.innerHTML = `${this.likes}`;
+                img.setAttribute('src', `${defaultImg}`);
+            }
+            console.log(this);
+        }
+        render() {
+            let node = document.createElement('div');
+            node.className = 'post';
+            node.dataset.id = this.id;
+            const post =
+            ` 
+        <div class="avatar">
+            <img src="${this.image}" alt="">
+        </div>
+        <div>
+            <div class="title"><a href="${this.link}">${this.name}</a></div>
+            <div class="text">${this.description} 
+            </div>
+            <div class="likes">
+                <button class="likes__btn">
+                        <img src="${defaultImg}">
+                </button>
+                <span>${this.likes}</span>
+            </div>
+        </div>
+        
+    `;
+
+        node.innerHTML = post;
+        const btn = node.querySelector('button').addEventListener('click', this.addLike);
+        return node;
+        }
+        
+      }
+
+
+
+
+    let  posts = data.map(item => {
+          return new Post(item.id, item.link, item.name, item.description, item.image);
+      });
+
+
+let renderArea = document.getElementById('renderArea');
+
+ posts.map( item => {
+     renderArea.appendChild(item.render());
+ })
+
+
+    </script>
+</body>
+</html>
