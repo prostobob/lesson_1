@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <table>
+        <thead>
+          <th>Company</th>
+          <th class="sort">Balance</th> 
+          <th>Registered</th>
+          <th>Address</th>
+          <th>quantity employers</th>
+          <th>employers</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>    
+
+
+    <script>
+
+            var getData = function fetchAsync(callBack) {
+                // const response = await fetch('http://www.json-generator.com/api/json/get/ceRHciXcVu?indent=2');
+                // const data = await response.json();
+                // console.log(data);
+                // return callBack(data);
+
+                fetch('http://www.json-generator.com/api/json/get/ceRHciXcVu?indent=2')
+                    .then( res => res.json() )
+                    .then( res => res.map( item => new Company(item.company, item.balance, item.registered, item.employers, item.address)))
+                    .then( res => callBack(res) )
+
+            }
+
+            class Company {
+                constructor(company, balance, registered, employers, address) {
+                    this.company = company;
+                    this.balance = balance;
+                    this.registered = registered;
+                    this.employers = employers;
+                    this.address = address;
+                }
+
+
+                render() {
+                let companyData = document.createElement('tr');
+                companyData.className = 'company';
+                //   ${Object.values(this.address).join(' ')}
+                const table = `
+                    <td>${this.company}</td>
+                    <td>${this.balance}</td>
+                    <td>${this.registered}</td>
+                    <td>${Object.values(this.address).join(' ')}</td>
+                    <td>${this.employers.length}</td>
+                    <td>
+                        ${this.employers.map( item => item.name).join('')}
+                    </td>
+                `;
+
+                companyData.innerHTML = table;
+                return companyData;
+            }    
+            }
+        
+            getData(data => {
+                let body = document.querySelector('tbody');
+                data.map( item => {
+                    body.appendChild(item.render());
+                });
+            });
+
+            
+
+            document.querySelector('.sort').addEventListener('click', () => {
+                getData((data) => {
+                    let body = document.querySelector('tbody');
+                    data.sort(sortArr);
+                    body.innerHTML = '';
+                    data.map( item => {
+                    body.appendChild(item.render());
+                });
+                    });
+            });
+            console.log();
+
+
+            function sortArr(a, b) {
+                const element1 = parseInt(a.balance.slice(1));
+                const element2 = parseInt(b.balance.slice(1));
+                if (element1 < element2)
+                    return -1;
+                if (element1 > element2)
+                    return 1;
+                return 0;
+            }
+           
+            
+        
+       
+    </script>
+</body>
+</html>
